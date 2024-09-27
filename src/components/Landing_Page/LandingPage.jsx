@@ -1,7 +1,5 @@
 import React from 'react'
 import './LandingPage.css'
-import Login from '../Login/Login'
-import SignUp from '../Sign_Up/Sign_Up'
 
 export default function LandingPage() {
   return (
@@ -32,8 +30,6 @@ export default function LandingPage() {
               </a>
                 
           </div>
-  <Login />
-  <SignUp />
         </div>
       </section>
 
