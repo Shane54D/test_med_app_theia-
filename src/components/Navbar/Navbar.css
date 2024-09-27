@@ -61,12 +61,24 @@ nav {
   color: #2190ff;
 }
 
+.logo-container {
+display: flex; 
+}
+
+.stay-healthy {
+font-size: 2rem;
+  font-weight: 600;
+  color: #0d213f;
+  cursor: pointer;
+}
+
 /* Styling for the logo in the navbar */
 .nav__logo {
   font-size: 2rem;
   font-weight: 600;
   color: #0d213f;
   cursor: pointer;
+  margin-left: 15px; 
 }
 
 /* Styling for a span within the logo */
