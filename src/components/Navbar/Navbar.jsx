@@ -1,11 +1,31 @@
 import React from 'react'
 import './Navbar.css'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 export default function Navbar() {
 
-    const handleClick = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // eslint-disable-next-line
+    const [userData, setUserData] = useState({});
+  
+    useEffect(() => {
+      // Check if the user is logged in (auth-token in sessionStorage)
+      const authToken = sessionStorage.getItem("auth-token");
+  
+      if (authToken) {
+        // If token exists, set user as logged in and retrieve user data
+        setIsLoggedIn(true);
+        setUserData({
+          name: sessionStorage.getItem("name"),
+          email: sessionStorage.getItem("email"),
+          phone: sessionStorage.getItem("phone"),
+        });
+      } else {
+        setIsLoggedIn(false);
+      }}, []); 
 
+    const handleClick = () => {
     }
     
   return (
@@ -51,7 +71,18 @@ export default function Navbar() {
           <li class="link">
             <a href="https://www.raleighmedicalgroup.com/appointments/request-appointment">Appointments</a>
           </li>
-       
+       { isLoggedIn ? (
+        <>
+     <li class="link">
+          {/* eslint-disable-next-line */}
+            <a href="">
+              <button class="btn1">Logout</button>
+            </a>
+          </li>
+          </> )
+          :
+          ( 
+          <> 
           <Link to="/SignUp">
           <li class="link">
             <a href="../Sign_Up/Sign_Up.html">
@@ -65,8 +96,10 @@ export default function Navbar() {
               <button class="btn1">Login</button>
             </a>
           </li>
-          </Link>
-        </ul>
+          </Link> 
+        </>
+        )}
+         </ul>
     </nav>
 
 
