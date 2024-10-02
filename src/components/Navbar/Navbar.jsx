@@ -72,9 +72,13 @@ export default function Navbar() {
             <a href="../Landing_Page/LandingPage.html">Home</a>
           </li>
           </Link>
+          <Link to="/instant-consultation">
           <li class="link">
-            <a href="https://www.raleighmedicalgroup.com/appointments/request-appointment">Appointments</a>
+             {/* <a href="https://www.raleighmedicalgroup.com/appointments/request-appointment"> */}
+    Appointments
+            {/* </a> */}
           </li>
+          </Link>
        { isLoggedIn ? (
         <>
         <div>Welcome, {userData.name}</div>
