@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import LandingPage from './components/Landing_Page/LandingPage';
 import SignUp from './components/Sign_Up/Sign_Up';
 import Login from './components/Login/Login';
+import InstantConsultation from './components/InstantConsultation/InstantConsultation';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/" element={<LandingPage /> } />
                 <Route path="/Login" element={<Login /> } />
                 <Route path="/SignUp" element={<SignUp /> } />
+                <Route path="/instant-consultation" element={<InstantConsultation />} />
      </Routes>
      </Router>
     </div>

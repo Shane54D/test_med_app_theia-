@@ -1,20 +1,24 @@
+/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react'
 import './Login.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { 
+    // Link,
+     useNavigate } from 'react-router-dom'
 import { API_URL } from '../../config'
 
 export default function Login() {
 
   // State variables for email and password
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState('');
+  const [email, setEmail ] = useState('');
   // Get navigation function from react-router-dom
   const navigate = useNavigate();
   // Check if user is already authenticated, then redirect to home page
   useEffect(() => {
-    if (sessionStorage.getItem("auth-token")) {
-      navigate("/");
-    }
+    // if (sessionStorage.getItem("auth-token")) {
+    //   navigate("/");
+    // }
   }, []);
   // Function to handle login form submission
   const login = async (e) => {
