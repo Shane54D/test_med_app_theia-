@@ -5,6 +5,7 @@ import 'reactjs-popup/dist/index.css';
 import './DoctorCardIC.css';
 import AppointmentFormIC from '../InstantConsultation/AppointmentFormIC'
 import { v4 as uuidv4 } from 'uuid';
+import Notification from '../Notification/Notification';
 
 
 const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => {
@@ -29,6 +30,9 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
     const updatedAppointments = [...appointments, newAppointment];
     setAppointments(updatedAppointments);
     setShowModal(false);
+
+    sessionStorage.setItem('isLoggedIn', JSON.stringify(true)); // Set logged-in status
+
   };
 
   return (
@@ -102,6 +106,7 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
                       <button onClick={() => handleCancel(appointment.id)}>Cancel Appointment</button>
                     </div>
                   ))}
+                  {/* <Notification /> */}
                 </>
               ) : (
                 <AppointmentFormIC doctorName={name} doctorSpeciality={speciality} onSubmit={handleFormSubmit} />
