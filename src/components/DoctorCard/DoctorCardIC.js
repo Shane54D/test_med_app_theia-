@@ -21,6 +21,7 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
   };
 
   const handleFormSubmit = (appointmentData) => {
+    console.log("Form submitted with data:", appointmentData); 
     const newAppointment = {
       id: uuidv4(),
       ...appointmentData,
@@ -96,6 +97,8 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
                     <div className="bookedInfo" key={appointment.id}>
                       <p>Name: {appointment.name}</p>
                       <p>Phone Number: {appointment.phoneNumber}</p>
+                      <p>Date: {appointment.selectedSlot}</p>
+                      <p>Time: {appointment.selectedDate}</p>
                       <button onClick={() => handleCancel(appointment.id)}>Cancel Appointment</button>
                     </div>
                   ))}
