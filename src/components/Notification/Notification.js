@@ -79,19 +79,25 @@ if (storedDoctorData) {
             <div className="appointment-card__content">
               {/* Display title for appointment details */}
               <h3 className="appointment-card__title">Appointment Details</h3>
-              <p className="appointment-card__message">
-                     <p className="appointment-card__message">
-                        <strong>Patient:</strong> {username}</p>
-                        {/* <p className="appointment-card__message"> */}
-                        {/* <strong>Phone Number:</strong> {appointmentData?.phoneNumber}</p> */}
-                {/* Display doctor's name from doctorData */}
-                <strong>Doctor:</strong> {doctorData?.name}
-                <br />
-                <strong>Speciality:</strong> {doctorData?.speciality}
-                <br />
-                <strong>Appointment Date:</strong> {appointmentData?.date || 'N/A'}<br />
-                <strong>Appointment Time:</strong> {appointmentData?.time || 'N/A'}<br />
-              </p>
+              <p className="appointment-card__message"> 
+              <strong>Doctor:</strong>{doctorData?.name} </p>
+              <p className="appointment-card__message"> <strong>Speciality:</strong> {doctorData?.speciality} </p>
+              {appointmentData.map(appointment => (
+                <div key={appointment.id}>
+                  <p className="appointment-card__message">
+                    <strong>Name:</strong> {appointment.name}
+                  </p>
+                  <p className="appointment-card__message">
+                    <strong>Phone Number:</strong> {appointment.phoneNumber}
+                  </p>
+                  <p className="appointment-card__message">
+                    <strong>Date of Appointment:</strong> {appointment.date}
+                  </p>
+                  <p className="appointment-card__message">
+                    <strong>Time Slot:</strong> {appointment.time}
+                  </p>
+                </div>
+              ))}      
             </div>
             <button onClick={handleCancelAppointment} className="cancel-appointment-button">
             Cancel Appointment
