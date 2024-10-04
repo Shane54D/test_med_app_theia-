@@ -7,37 +7,54 @@ import './Notification.css'
 
 // Function component Notification to display user notifications
 const Notification = ({ children }) => {
-  // State variables to manage user authentication, username, doctor data, and appointment data
+     console.log('Notification is rendering!');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   /* eslint-disable-next-line no-unused-vars */
   const [username, setUsername] = useState("");
   const [doctorData, setDoctorData] = useState(null);
   const [appointmentData, setAppointmentData] = useState(null);
 
-  // useEffect hook to perform side effects in the component
   useEffect(() => {
-    // Retrieve stored username, doctor data, and appointment data from sessionStorage and localStorage
+    const fetchData = () => {
     const storedUsername = sessionStorage.getItem('name');
     const storedDoctorData = JSON.parse(localStorage.getItem('doctorData'));
-    console.log("Stored Doctor Data:", storedDoctorData);
-    const storedAppointmentData = JSON.parse(localStorage.getItem(storedDoctorData?.name));
+    const storedAppointmentData = JSON.parse(localStorage.getItem('appointments'));
 
-    // Set isLoggedIn state to true and update username if storedUsername exists
-    if (storedUsername) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername);
-    }
+    console.log("Raw Appointment Data:", storedAppointmentData);
 
-    // Set doctorData state if storedDoctorData exists
-    if (storedDoctorData) {
-      setDoctorData(storedDoctorData);
-    }
+if (storedUsername) {
+    setIsLoggedIn(true); 
+    setUsername(storedUsername);
+}
 
-    // Set appointmentData state if storedAppointmentData exists
-    if (storedAppointmentData) {
-      setAppointmentData(storedAppointmentData);
-    }
-  }, []); // Empty dependency array ensures useEffect runs only once after initial render
+if (storedDoctorData) {
+    setDoctorData(storedDoctorData); 
+}
+
+ setAppointmentData(storedAppointmentData);
+
+ console.log("Stored Doctor Data:", storedDoctorData);
+    console.log("Stored Appointment Data:", storedAppointmentData); 
+    console.log("Notification StoredAppointmentData", storedAppointmentData); 
+    console.log("Notficiation appointmentData", appointmentData); 
+ }; 
+
+ // Initial fetch when component mounts
+ fetchData();
+
+ // Event listener to update appointment data on event trigger
+ const handleAppointmentUpdate = () => {
+     fetchData(); // Re-fetch appointment data
+ };
+
+ // Add event listener
+ window.addEventListener('appointmentUpdated', handleAppointmentUpdate);
+
+ // Cleanup event listener on component unmount
+ return () => {
+     window.removeEventListener('appointmentUpdated', handleAppointmentUpdate);
+ };
+}, [appointmentData]);
 
   const handleCancelAppointment = () => {
     // Logic to clear appointment data

@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './DoctorCardIC.css';
-import AppointmentFormIC from '../InstantConsultation/AppointmentFormIC'
+import AppointmentFormIC from '../BookingConsultation/AppointmentFormIC'
 import { v4 as uuidv4 } from 'uuid';
-import Notification from '../Notification/Notification';
-
 
 const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => {
   const [showModal, setShowModal] = useState(false);
@@ -19,21 +17,52 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
   const handleCancel = (appointmentId) => {
     const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
     setAppointments(updatedAppointments);
+    sessionStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+
   };
 
   const handleFormSubmit = (appointmentData) => {
     console.log("Form submitted with data:", appointmentData); 
+
     const newAppointment = {
-      id: uuidv4(),
-      ...appointmentData,
+        id: uuidv4(),  // Generates a new unique ID for the appointment
+        ...appointmentData,
     };
-    const updatedAppointments = [...appointments, newAppointment];
+
+    // Retrieve existing appointments from sessionStorage
+    const existingAppointments = JSON.parse(sessionStorage.getItem('appointments')) || [];
+
+    // Append the new appointment to the existing appointments
+    const updatedAppointments = [...existingAppointments, newAppointment];
+
+    // Update the state
     setAppointments(updatedAppointments);
     setShowModal(false);
 
+    // Store the updated appointments array in sessionStorage with the key 'appointments'
     sessionStorage.setItem('isLoggedIn', JSON.stringify(true)); // Set logged-in status
 
-  };
+    sessionStorage.setItem('appointments', JSON.stringify(updatedAppointments)); // Store appointments under a fixed key
+
+    const event = new Event('appointmentUpdated');
+    window.dispatchEvent(event);
+
+ // Store doctor's details in sessionStorage
+    const doctorDetails = {
+        name,
+        speciality,
+        experience,
+        ratings,
+    };
+
+    sessionStorage.setItem('doctorDetails', JSON.stringify(doctorDetails)); // Store doctor's details under a fixed key
+
+    // Log the appointments to confirm they are stored correctly
+    console.log('Appointments in sessionStorage:', JSON.parse(sessionStorage.getItem('appointments')));
+    console.log('Doctor Details in sessionStorage:', JSON.parse(sessionStorage.getItem('doctorDetails')));
+};
+
+
 
   return (
     <div className="doctor-card-container">

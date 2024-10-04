@@ -68,7 +68,6 @@ const BookingConsultation = () => {
                     <h3>Book appointments with minimum wait-time & verified doctor details</h3>
                     {filteredDoctors.length > 0 ? (
                     filteredDoctors.map(doctor => {
-                        console.log(doctor); 
                         return <DoctorCardIC className="doctorcard" {...doctor} key={doctor.name} />; }) 
 ) : (
                     <p>No doctors found.</p>
