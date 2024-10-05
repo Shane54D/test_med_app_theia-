@@ -7,7 +7,6 @@ import './Notification.css'
 
 // Function component Notification to display user notifications
 const Notification = ({ children }) => {
-     console.log('Notification is rendering!');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   /* eslint-disable-next-line no-unused-vars */
   const [username, setUsername] = useState("");
@@ -17,10 +16,12 @@ const Notification = ({ children }) => {
   useEffect(() => {
     const fetchData = () => {
     const storedUsername = sessionStorage.getItem('name');
-    const storedDoctorData = JSON.parse(localStorage.getItem('doctorData'));
-    const storedAppointmentData = JSON.parse(localStorage.getItem('appointments'));
+    const storedDoctorData = JSON.parse(sessionStorage.getItem('doctorDetails'));
+    const storedAppointmentData = JSON.parse(sessionStorage.getItem('appointments'));
 
     console.log("Raw Appointment Data:", storedAppointmentData);
+    console.log("Notficiation appointmentData", appointmentData); 
+    console.log("Stored Doctor Data:", storedDoctorData);
 
 if (storedUsername) {
     setIsLoggedIn(true); 
@@ -33,10 +34,6 @@ if (storedDoctorData) {
 
  setAppointmentData(storedAppointmentData);
 
- console.log("Stored Doctor Data:", storedDoctorData);
-    console.log("Stored Appointment Data:", storedAppointmentData); 
-    console.log("Notification StoredAppointmentData", storedAppointmentData); 
-    console.log("Notficiation appointmentData", appointmentData); 
  }; 
 
  // Initial fetch when component mounts
@@ -54,13 +51,12 @@ if (storedDoctorData) {
  return () => {
      window.removeEventListener('appointmentUpdated', handleAppointmentUpdate);
  };
-}, [appointmentData]);
+}, []);
 
-  const handleCancelAppointment = () => {
-    // Logic to clear appointment data
-    setAppointmentData(null);
-    localStorage.removeItem(doctorData?.name); // Adjust as necessary to match your storage logic
-    alert("Your appointment has been canceled.");
+  const handleCancelAppointment = (appointmentId) => {
+        const updatedAppointments = appointmentData.filter((appointment) => appointment.id !== appointmentId);
+        setAppointmentData(updatedAppointments);
+        sessionStorage.setItem('appointments', JSON.stringify(updatedAppointments));    
   };
 
   // Return JSX elements to display Navbar, children components, and appointment details if user is logged in
@@ -72,7 +68,7 @@ if (storedDoctorData) {
       {children}
       {/* Display appointment details if user is logged in and appointmentData is available */}
       {isLoggedIn && 
-      appointmentData &&
+      appointmentData && appointmentData.length > 0 &&
        (
         <>
           <div className="appointment-card">
@@ -80,7 +76,7 @@ if (storedDoctorData) {
               {/* Display title for appointment details */}
               <h3 className="appointment-card__title">Appointment Details</h3>
               <p className="appointment-card__message"> 
-              <strong>Doctor:</strong>{doctorData?.name} </p>
+              <strong>Doctor: </strong>{doctorData?.name} </p>
               <p className="appointment-card__message"> <strong>Speciality:</strong> {doctorData?.speciality} </p>
               {appointmentData.map(appointment => (
                 <div key={appointment.id}>
@@ -88,20 +84,21 @@ if (storedDoctorData) {
                     <strong>Name:</strong> {appointment.name}
                   </p>
                   <p className="appointment-card__message">
-                    <strong>Phone Number:</strong> {appointment.phoneNumber}
+                    <strong>Phone:</strong> {appointment.phoneNumber}
                   </p>
                   <p className="appointment-card__message">
-                    <strong>Date of Appointment:</strong> {appointment.date}
+                    <strong>Date:</strong> {appointment.selectedDate}
                   </p>
                   <p className="appointment-card__message">
-                    <strong>Time Slot:</strong> {appointment.time}
+                    <strong>Time:</strong> {appointment.selectedSlot}
                   </p>
+                  <button onClick={() => handleCancelAppointment(appointment.id)} className="cancel-appointment-button">
+            Cancel Appointment
+          </button>
                 </div>
               ))}      
             </div>
-            <button onClick={handleCancelAppointment} className="cancel-appointment-button">
-            Cancel Appointment
-          </button>
+           
           </div>
         </>
       )}

@@ -24,9 +24,7 @@ export default function Navbar() {
     );
       } else {
         setIsLoggedIn(false);
-      }}, []); 
-
-    console.log(userData.name);  
+      }}, []);  
 
     const handleClick = () => {
     }
