@@ -21,8 +21,8 @@ function App() {
                 <Route path="/Login" element={<Login /> } />
                 <Route path="/SignUp" element={<SignUp /> } />
                 <Route path="/instant-consultation" element={<BookingConslutation />} />  
+                <Route path="/reviews" element={<ReviewForm />} />
      </Routes>
-     <ReviewForm />
      </Router>
     </div>
   );

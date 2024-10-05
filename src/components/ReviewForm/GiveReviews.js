@@ -25,6 +25,8 @@ function GiveReviews({ onClose, onSubmit }) {
   };
 
   const handleSubmit = (e) => {
+    console.log('GiveReviews formData.review', formData.review);
+    console.log('GiveReviews formData.rating', formData.rating); 
     e.preventDefault();
     if (formData.name && formData.review && formData.rating > 0) {
       setShowWarning(false);

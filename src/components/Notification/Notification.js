@@ -51,7 +51,7 @@ if (storedDoctorData) {
  return () => {
      window.removeEventListener('appointmentUpdated', handleAppointmentUpdate);
  };
-}, []);
+}, [appointmentData]);
 
   const handleCancelAppointment = (appointmentId) => {
         const updatedAppointments = appointmentData.filter((appointment) => appointment.id !== appointmentId);

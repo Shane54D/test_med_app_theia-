@@ -77,6 +77,9 @@ export default function Navbar() {
             {/* </a> */}
           </li>
           </Link>
+<Link to="/reviews">
+<li>Reviews</li>
+</Link>
        { isLoggedIn ? (
         <>
         <div>Welcome, {userData.name}</div>
