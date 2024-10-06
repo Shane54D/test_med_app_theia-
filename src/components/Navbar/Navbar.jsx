@@ -8,7 +8,7 @@ export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     // eslint-disable-next-line
     const [userData, setUserData] = useState({});
-    const [dropdownOpen, setDrowdownOpen] = useState(false); 
+    const [dropdownOpen, setDropdownOpen] = useState(false); 
   
     useEffect(() => {
       const authToken = sessionStorage.getItem("auth-token");

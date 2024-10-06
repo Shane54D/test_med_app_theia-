@@ -1,0 +1,67 @@
+.reports-layout {
+    background-color: #f7f7f7; /* Soft light grey */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    margin-top: 100px; 
+}
+
+.reports-layout h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reports-layout table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%; /* Make the table take the full width of the container */
+}
+
+.reports-layout th, .reports-layout td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Light border for table rows */
+}
+
+.reports-layout th {
+    background-color: #eaeaea; /* Slightly darker grey for the header */
+    text-align: center;
+}
+
+.reports-layout td {
+    text-align: center;
+}
+
+.reports-layout button {
+    color: white;
+    background-color: #3685fb; /* Blue color for buttons */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reports-layout button:hover {
+    background-color: #0056b3; /* Darker blue when hovered */
+}
+
+.button-disabled {
+    background-color: #e0e0e0; /* Gray background */
+    color: #a0a0a0; /* Gray text */
+    cursor: not-allowed; /* Not-allowed cursor */
+    pointer-events: none; /* Prevent any mouse events */
+}
+
+.custom-popup {
+    width: 600px; /* Adjust width for the popup */
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.custom-popup .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow to the popup */
+}
