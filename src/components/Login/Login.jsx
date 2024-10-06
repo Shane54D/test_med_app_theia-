@@ -77,15 +77,15 @@ export default function Login() {
             <form>
              
             <div className="form-group">
-               <label htmlFor="password">Password</label>
+               <label htmlFor="email">Email</label>
                <input
-                 value={password}
-                 onChange={(e) => setPassword(e.target.value)}
-                 type="password"
-                 name="password"
-                 id="password"
+                 value={email}
+                 onChange={(e) => setEmail(e.target.value)}
+                 type="email"
+                 name="email"
+                 id="email"
                  className="form-control"
-                 placeholder="Enter your password"
+                 placeholder="email"
                  aria-describedby="helpId"
                />
              </div>
