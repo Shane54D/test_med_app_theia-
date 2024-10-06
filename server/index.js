@@ -13,7 +13,14 @@ const PORT = process.env.PORT || 8181;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+{
+    origin: 'https://shwayne14-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/', // Replace with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, // Allow credentials (optional)
+}
+
+));
 
 // Connect to MongoDB
 connectToMongo();

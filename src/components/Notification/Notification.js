@@ -19,9 +19,9 @@ const Notification = ({ children }) => {
     const storedDoctorData = JSON.parse(sessionStorage.getItem('doctorDetails'));
     const storedAppointmentData = JSON.parse(sessionStorage.getItem('appointments'));
 
-    console.log("Raw Appointment Data:", storedAppointmentData);
-    console.log("Notficiation appointmentData", appointmentData); 
-    console.log("Stored Doctor Data:", storedDoctorData);
+    // console.log("Raw Appointment Data:", storedAppointmentData);
+    // console.log("Notficiation appointmentData", appointmentData); 
+    // console.log("Stored Doctor Data:", storedDoctorData);
 
 if (storedUsername) {
     setIsLoggedIn(true); 

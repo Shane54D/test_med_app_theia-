@@ -13,13 +13,17 @@ const Sign_Up = () => {
      // eslint-disable-next-line
     const [password, setPassword] = useState('');
     const [showerr, setShowerr] = useState(''); // State to show error messages
+    const [isLoading, setIsLoading] = useState(false); 
     const navigate = useNavigate(); // Navigation hook from react-router
 
     // Function to handle form submission
     const register = async (e) => {
         e.preventDefault(); // Prevent default form submission
+        setShowerr('');
+    setIsLoading(true); 
 
         // API Call to register user
+        try {
         const response = await fetch(`${API_URL}/api/auth/register`, {
             method: "POST",
             headers: {
@@ -35,28 +39,38 @@ const Sign_Up = () => {
 
         const json = await response.json(); // Parse the response JSON
 
+        console.log("Response:", json);
+
         if (json.authtoken) {
-            // Store user data in session storage
             sessionStorage.setItem("auth-token", json.authtoken);
             sessionStorage.setItem("name", name);
             sessionStorage.setItem("phone", phone);
             sessionStorage.setItem("email", email);
-
-            // Redirect user to home page
             navigate("/");
-            window.location.reload(); // Refresh the page
+            window.location.reload(); 
         } else {
             if (json.errors) {
-                for (const error of json.errors) {
-                    setShowerr(error.msg); // Show error messages
-                }
+                setShowerr(json.errors.map(error => error.msg).join(', ')); // Show error messages
             } else {
                 setShowerr(json.error);
             }
         }
-    };
+    } catch (error) {
+        console.error("Error:", error);
+        setShowerr("An unexpected error occurred. Please try again later.");
+    } finally {
+        setIsLoading(false); // Reset loading state
+    }
+};
 
-    // JSX to render the Sign Up form
+ // Function to reset the form
+ const resetForm = () => {
+    setName('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setShowerr(''); // Clear any error messages
+};
     return (
         <div className="container" style={{marginTop:'5%'}}>
             <div className="signup-grid">
@@ -90,8 +104,10 @@ const Sign_Up = () => {
            <input value={password} onChange={(e) => setPassword(e.target.value)} name="password" id="password" className="form-control" placeholder="Enter your password" aria-describedby="helpId" />
        </div>
        <div className="btn-group"> 
-                          <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light" onClick={(e) => register()}>Submit</button> 
-                          <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light">Reset</button>
+                          <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light" 
+                        //   onClick={(e) => register()}
+                          >{isLoading ? 'Submitting...' : 'Submit'}</button> 
+                          <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light" onClick={resetForm}>Reset</button>
                       </div>
                     </form>
                 </div>
