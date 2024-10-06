@@ -8,13 +8,12 @@ export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     // eslint-disable-next-line
     const [userData, setUserData] = useState({});
+    const [dropdownOpen, setDrowdownOpen] = useState(false); 
   
     useEffect(() => {
-      // Check if the user is logged in (auth-token in sessionStorage)
       const authToken = sessionStorage.getItem("auth-token");
   
       if (authToken) {
-        // If token exists, set user as logged in and retrieve user data
         setIsLoggedIn(true);
         setUserData({
           name: sessionStorage.getItem("name"),
@@ -25,6 +24,21 @@ export default function Navbar() {
       } else {
         setIsLoggedIn(false);
       }}, []);  
+
+      const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+      };
+
+      const handleLogout = () => {
+        // Implement your logout logic here
+        sessionStorage.removeItem('auth-token');
+        sessionStorage.removeItem('name');
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('phone');
+        setIsLoggedIn(false);
+        setUserData({});
+        // Optionally redirect to login page
+      };
 
     const handleClick = () => {
     }
@@ -80,35 +94,42 @@ export default function Navbar() {
 <Link to="/reviews">
 <li>Reviews</li>
 </Link>
-       { isLoggedIn ? (
-        <>
-        <div>Welcome, {userData.name}</div>
-     <li class="link">
-          {/* eslint-disable-next-line */}
-            <a href="">
-              <button class="btn1">Logout</button>
-            </a>
-          </li>
-          </> )
-          :
-          ( 
-          <> 
-          <Link to="/SignUp">
-          <li class="link">
-            <a href="../Sign_Up/Sign_Up.html">
-              <button class="btn1">Sign Up</button>
-            </a>
-          </li>
-        </Link>
-        <Link to="/Login">
-          <li class="link">
-            <a href="../Login/Login.html">
-              <button class="btn1">Login</button>
-            </a>
-          </li>
-          </Link> 
-        </>
-        )}
+{isLoggedIn ? (
+            <>
+              <li className='link' onClick={toggleDropdown}>
+                Welcome, {userData.name}
+              </li>
+              {dropdownOpen && (
+                <ul className='dropdown'>
+                  <li>
+                    <Link to='/profile'>Profile</Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout} className='btn1'>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </>
+          ) : (
+            <>
+              <Link to='/SignUp'>
+                <li className='link'>
+                  <a href='../Sign_Up/Sign_Up.html'>
+                    <button className='btn1'>Sign Up</button>
+                  </a>
+                </li>
+              </Link>
+              <Link to='/Login'>
+                <li className='link'>
+                  <a href='../Login/Login.html'>
+                    <button className='btn1'>Login</button>
+                  </a>
+                </li>
+              </Link>
+            </>
+          )}
          </ul>
     </nav>
 
