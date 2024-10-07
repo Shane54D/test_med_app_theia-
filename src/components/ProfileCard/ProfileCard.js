@@ -63,7 +63,7 @@ const ProfileForm = () => {
         } else {
           fetchUserProfile();
         }
-      }, [navigate]);
+      }, [navigate, userDetails]);
 
   const handleEdit = () => {
     setEditMode(true);
