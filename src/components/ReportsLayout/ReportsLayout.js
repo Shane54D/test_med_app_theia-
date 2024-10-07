@@ -4,9 +4,9 @@ import './ReportsLayout.css'; // Make sure to create a CSS file for styling if n
 
 // Sample data for the reports
 const initialReports = [
-  { id: 1, doctorName: "Dr. John Smith", speciality: "Cardiology", pdfUrl: "/path/to/report1.pdf" },
-  { id: 2, doctorName: "Dr. Jane Doe", speciality: "Dermatology", pdfUrl: "/path/to/report2.pdf" },
-  { id: 3, doctorName: "Dr. Emily Johnson", speciality: "Pediatrics", pdfUrl: "/path/to/report3.pdf" }
+  { id: 1, doctorName: "Dr. John Smith", speciality: "Cardiology", pdfUrl: "/reports/DummyReport.pdf" },
+  { id: 2, doctorName: "Dr. Jane Doe", speciality: "Dermatology", pdfUrl: "/reports/DummyReport.pdf" },
+  { id: 3, doctorName: "Dr. Emily Johnson", speciality: "Pediatrics", pdfUrl: "/reports/DummyReport.pdf" }
 ];
 
 const ReportsLayout = () => {
@@ -49,7 +49,16 @@ const ReportsLayout = () => {
                     <div className="popup-content">
                       <h2>Report for {report.doctorName}</h2>
                       <p>Specialty: {report.speciality}</p>
-                      <p>Report content goes here...</p>
+
+                      <iframe 
+                        src={report.pdfUrl} 
+                        title={`Report for ${report.doctorName}`} 
+                        width="100%" 
+                        height="400px"
+                        style={{ border: 'none' }}
+                      />
+
+                      {/* <p>Report content goes here...</p> */}
                       <button className="btn-close" onClick={close}>
                         Close
                       </button>

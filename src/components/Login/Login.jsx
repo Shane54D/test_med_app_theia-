@@ -55,7 +55,7 @@ export default function Login() {
         const userDetails = await userRes.json();
         console.log('User Details:', userDetails); // Log the user details
         // Assuming the userDetails object has 'username' and 'phone'
-        sessionStorage.setItem('username', userDetails.name);
+        sessionStorage.setItem('name', userDetails.name);
         sessionStorage.setItem('phone', userDetails.phone);
     } else {
         console.error('Failed to fetch user details:', userRes.status);

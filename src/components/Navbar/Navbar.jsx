@@ -10,20 +10,32 @@ export default function Navbar() {
     const [userData, setUserData] = useState({});
     const [dropdownOpen, setDropdownOpen] = useState(false); 
   
+    const updateUserData = () => {
+        const name = sessionStorage.getItem("name");
+        const email = sessionStorage.getItem("email");
+        const phone = sessionStorage.getItem("phone");
+    
+        // Update userData state if any of the values have changed
+        setUserData({ name, email, phone });
+      };
+    
     useEffect(() => {
       const authToken = sessionStorage.getItem("auth-token");
   
       if (authToken) {
         setIsLoggedIn(true);
-        setUserData({
-          name: sessionStorage.getItem("username"),
-          email: sessionStorage.getItem("email"),
-          phone: sessionStorage.getItem("phone"),
-        }
-    );
+        updateUserData(); 
       } else {
         setIsLoggedIn(false);
-      }}, []);  
+      }
+
+          // Set up an interval to check for updates every second (1000ms)
+    const intervalId = setInterval(updateUserData, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Run effect once on mount
+
 
       const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -32,7 +44,7 @@ export default function Navbar() {
       const handleLogout = () => {
         // Implement your logout logic here
         sessionStorage.removeItem('auth-token');
-        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('name');
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('phone');
         setIsLoggedIn(false);
@@ -105,7 +117,7 @@ export default function Navbar() {
                     <Link to='/profile'>Your Profile</Link>
                   </li>
                   <li>
-                    <Link to='/profile'>Your Reports</Link>
+                    <Link to='/reports'>Your Reports</Link>
                   </li>
                 </ul>
               )}
