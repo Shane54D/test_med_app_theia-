@@ -16,9 +16,8 @@ nav {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
-  z-index: 1;
-  display: none;
+  right: 15%;
+  z-index: 1100;
   min-width: 120px;
   padding: 8px 0;
   background-color: #fff;

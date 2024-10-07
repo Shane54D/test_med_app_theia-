@@ -1,16 +1,14 @@
 
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter as Router
-    // , Routes, Route
- } from 'react-router-dom'
-// import LandingPage from './components/Landing_Page/LandingPage';
-// import SignUp from './components/Sign_Up/Sign_Up';
-// import Login from './components/Login/Login';
-// import BookingConslutation from './components/BookingConsultation/BookingConsultation';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import LandingPage from './components/Landing_Page/LandingPage';
+import SignUp from './components/Sign_Up/Sign_Up';
+import Login from './components/Login/Login';
+import BookingConslutation from './components/BookingConsultation/BookingConsultation';
 import Notification from './components/Notification/Notification';
-import ReportsLayout from './components/ReportsLayout/ReportsLayout';
-// import ReviewForm from './components/ReviewForm/ReviewForm';
+import ReviewForm from './components/ReviewForm/ReviewForm'
+import ProfileCard from './components/ProfileCard/ProfileCard'
 
 function App() {
 
@@ -19,14 +17,14 @@ function App() {
         <Router>
             <Navbar />
             <Notification />
-            <ReportsLayout />
-            {/* <Routes>
+            <Routes>
                 <Route path="/" element={<LandingPage /> } />
                 <Route path="/Login" element={<Login /> } />
                 <Route path="/SignUp" element={<SignUp /> } />
                 <Route path="/instant-consultation" element={<BookingConslutation />} />  
                 <Route path="/reviews" element={<ReviewForm />} />
-     </Routes> */}
+                <Route path="/profile" element={<ProfileCard />} />
+     </Routes>
      </Router>
     </div>
   );

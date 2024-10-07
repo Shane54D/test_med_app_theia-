@@ -9,21 +9,18 @@ import { API_URL } from '../../config'
 
 export default function Login() {
 
-  // State variables for email and password
   const [password, setPassword] = useState("");
   const [email, setEmail ] = useState('');
-  // Get navigation function from react-router-dom
+
   const navigate = useNavigate();
-  // Check if user is already authenticated, then redirect to home page
   useEffect(() => {
     // if (sessionStorage.getItem("auth-token")) {
     //   navigate("/");
     // }
   }, []);
-  // Function to handle login form submission
+
   const login = async (e) => {
     e.preventDefault();
-    // Send a POST request to the login API endpoint
     const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
@@ -34,12 +31,38 @@ export default function Login() {
         password: password,
       }),
     });
+
+    console.log('Response status:', res.status);  // Log response status
+
     // Parse the response JSON
     const json = await res.json();
     if (json.authtoken) {
       // If authentication token is received, store it in session storage
       sessionStorage.setItem('auth-token', json.authtoken);
       sessionStorage.setItem('email', email);
+
+      // Fetch additional user details
+      const userRes = await fetch(`${API_URL}/api/auth/user`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${json.authtoken}`,
+            "email": email
+        },
+    });
+
+    if (userRes.ok) {
+        const userDetails = await userRes.json();
+        console.log('User Details:', userDetails); // Log the user details
+        // Assuming the userDetails object has 'username' and 'phone'
+        sessionStorage.setItem('username', userDetails.name);
+        sessionStorage.setItem('phone', userDetails.phone);
+    } else {
+        console.error('Failed to fetch user details:', userRes.status);
+        alert('Failed to fetch user details. Please try again.');
+    }
+
+
       // Redirect to home page and reload the window
       navigate('/');
       window.location.reload();
@@ -74,7 +97,7 @@ export default function Login() {
           <br />
     
           <div className="login-form">
-            <form>
+            <form onSubmit={login}>
              
             <div className="form-group">
                <label htmlFor="email">Email</label>
@@ -93,6 +116,8 @@ export default function Login() {
               <div className="form-group">
                 <label for="password">Password</label>
                 <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   name="password"
                   id="password"

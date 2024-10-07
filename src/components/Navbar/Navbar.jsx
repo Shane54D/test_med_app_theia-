@@ -16,7 +16,7 @@ export default function Navbar() {
       if (authToken) {
         setIsLoggedIn(true);
         setUserData({
-          name: sessionStorage.getItem("name"),
+          name: sessionStorage.getItem("username"),
           email: sessionStorage.getItem("email"),
           phone: sessionStorage.getItem("phone"),
         }
@@ -32,7 +32,7 @@ export default function Navbar() {
       const handleLogout = () => {
         // Implement your logout logic here
         sessionStorage.removeItem('auth-token');
-        sessionStorage.removeItem('name');
+        sessionStorage.removeItem('username');
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('phone');
         setIsLoggedIn(false);
@@ -100,17 +100,20 @@ export default function Navbar() {
                 Welcome, {userData.name}
               </li>
               {dropdownOpen && (
-                <ul className='dropdown'>
+                <ul className='dropdown-menu'>
                   <li>
-                    <Link to='/profile'>Profile</Link>
+                    <Link to='/profile'>Your Profile</Link>
                   </li>
                   <li>
+                    <Link to='/profile'>Your Reports</Link>
+                  </li>
+                </ul>
+              )}
+               <li>
                     <button onClick={handleLogout} className='btn1'>
                       Logout
                     </button>
                   </li>
-                </ul>
-              )}
             </>
           ) : (
             <>

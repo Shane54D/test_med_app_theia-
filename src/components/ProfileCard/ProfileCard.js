@@ -63,22 +63,19 @@ const ProfileForm = () => {
         } else {
           fetchUserProfile();
         }
-      }, [navigate, userDetails]);
+      }, [navigate]);
 
-  // Function to enable edit mode for profile details
   const handleEdit = () => {
     setEditMode(true);
   };
 
-  // Function to update state when user inputs new data
-//   const handleInputChange = (e) => {
-//     setUpdatedDetails({
-//       ...updatedDetails,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
+  const handleInputChange = (e) => {
+    setUpdatedDetails({
+      ...updatedDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  // Function to handle form submission when user saves changes
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -112,43 +109,54 @@ const ProfileForm = () => {
 
         setUserDetails(updatedDetails);
         setEditMode(false);
-        // Display success message to the user
         alert(`Profile Updated Successfully!`);
         navigate("/");
       } else {
-        // Handle error case
         throw new Error("Failed to update profile");
       }
     } catch (error) {
       console.error(error);
-      // Handle error case
     }
   };
-
-  console.log('Rendering userDetails:', userDetails); // Log userDetails in the render function
-  console.log('Rendering updatedDetails:', updatedDetails); // Log updatedDetails in the render function
-
 
   // Render the profile form with different sections based on edit mode
   return (
     <div className="profile-container">
       {editMode ? (
         <form onSubmit={handleSubmit}>
+              <h2>Edit Your Details:</h2>
+            <label>
+            Name
+            <input
+              type="text"
+              name="name"
+              value={updatedDetails.name}
+              onChange={handleInputChange}
+            />
+          </label>
           <label>
             Email
             <input
               type="email"
               name="email"
-              value={userDetails.email}
-              disabled // Disable the email field
+              value={updatedDetails.email}
+              onChange={handleInputChange}
             />
           </label>
-          {/* Create similar logic for displaying and editing name and phone from userDetails */}
+          <label>
+            Phone
+            <input
+              type="number"
+              name="phone"
+              value={updatedDetails.phone}
+              onChange={handleInputChange}
+            />
+          </label>
           <button type="submit">Save</button>
         </form>
       ) : (
         <div className="profile-details">
-          <h1>Welcome, {userDetails.name}</h1>
+          <h2>Your Details:</h2>
           <form>
           <label>
             Name

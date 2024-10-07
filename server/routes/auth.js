@@ -40,8 +40,8 @@ passport.deserializeUser(function (id, cb) {
 router.post('/register',[
     body('email', "Please Enter a Vaild Email").isEmail(),
     body('name', "Username should be at least 4 characters.").isLength({ min: 4 }),
-    body('password', "Password Should Be At Least 8 Characters.").isLength({ min: 8 }),
-    body('phone', "Phone Number Should Be 10 Digits.").isLength({ min: 10 }),
+    body('password', "Password Should Be At Least 6 Characters.").isLength({ min: 6 }),
+    body('phone', "Phone Number Should Be 8 Digits.").isLength({ min: 8 }),
 ], async (req, res) => {
 
     const error = validationResult(req);
