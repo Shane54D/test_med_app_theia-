@@ -12,6 +12,7 @@ const Notification = ({ children }) => {
   const [username, setUsername] = useState("");
   const [doctorData, setDoctorData] = useState(null);
   const [appointmentData, setAppointmentData] = useState(null);
+  const [isAtBottom, setIsAtBottom] = useState(false); // State variable to track position
 
   useEffect(() => {
     const fetchData = () => {
@@ -32,8 +33,9 @@ if (storedDoctorData) {
     setDoctorData(storedDoctorData); 
 }
 
- setAppointmentData(storedAppointmentData);
-
+ if (storedAppointmentData !== appointmentData) {
+        setAppointmentData(storedAppointmentData || []);
+      }
  }; 
 
  // Initial fetch when component mounts
@@ -51,7 +53,7 @@ if (storedDoctorData) {
  return () => {
      window.removeEventListener('appointmentUpdated', handleAppointmentUpdate);
  };
-}, [appointmentData]);
+}, []);
 
   const handleCancelAppointment = (appointmentId) => {
         const updatedAppointments = appointmentData.filter((appointment) => appointment.id !== appointmentId);
@@ -59,48 +61,88 @@ if (storedDoctorData) {
         sessionStorage.setItem('appointments', JSON.stringify(updatedAppointments));    
   };
 
+ // Function to toggle notification position
+  const togglePosition = () => {
+    setIsAtBottom((prev) => !prev);
+  };
+
+
   // Return JSX elements to display Navbar, children components, and appointment details if user is logged in
   return (
     <div>
-      {/* Render Navbar component */}
-      {/* <Navbar ></Navbar> */}
-      {/* Render children components */}
       {children}
-      {/* Display appointment details if user is logged in and appointmentData is available */}
+      <button onClick={togglePosition} className="move-to-bottom-button">
+        Move Notifications {isAtBottom ? 'Up' : 'Down'}
+      </button>
+      {/* Render appointment details only if not moved to bottom */}
       {isLoggedIn && 
       appointmentData && appointmentData.length > 0 &&
-       (
-        <>
-          <div className="appointment-card">
-            <div className="appointment-card__content">
-              {/* Display title for appointment details */}
-              <h3 className="appointment-card__title">Appointment Details</h3>
-              <p className="appointment-card__message"> 
-              <strong>Doctor: </strong>{doctorData?.name} </p>
-              <p className="appointment-card__message"> <strong>Speciality:</strong> {doctorData?.speciality} </p>
-              {appointmentData.map(appointment => (
-                <div key={appointment.id}>
-                  <p className="appointment-card__message">
-                    <strong>Name:</strong> {appointment.name}
-                  </p>
-                  <p className="appointment-card__message">
-                    <strong>Phone:</strong> {appointment.phoneNumber}
-                  </p>
-                  <p className="appointment-card__message">
-                    <strong>Date:</strong> {appointment.selectedDate}
-                  </p>
-                  <p className="appointment-card__message">
-                    <strong>Time:</strong> {appointment.selectedSlot}
-                  </p>
-                  <button onClick={() => handleCancelAppointment(appointment.id)} className="cancel-appointment-button">
-            Cancel Appointment
-          </button>
-                </div>
-              ))}      
-            </div>
-           
+      !isAtBottom && (
+        <div className="appointment-card">
+          <div className="appointment-card__content">
+            <h3 className="appointment-card__title">Appointment Details</h3>
+            <p className="appointment-card__message"> 
+              <strong>Doctor: </strong>{doctorData?.name} 
+            </p>
+            <p className="appointment-card__message"> 
+              <strong>Speciality:</strong> {doctorData?.speciality} 
+            </p>
+            {appointmentData.map(appointment => (
+              <div key={appointment.id}>
+                <p className="appointment-card__message">
+                  <strong>Name:</strong> {appointment.name}
+                </p>
+                <p className="appointment-card__message">
+                  <strong>Phone:</strong> {appointment.phoneNumber}
+                </p>
+                <p className="appointment-card__message">
+                  <strong>Date:</strong> {appointment.selectedDate}
+                </p>
+                <p className="appointment-card__message">
+                  <strong>Time:</strong> {appointment.selectedSlot}
+                </p>
+                <button onClick={() => handleCancelAppointment(appointment.id)} className="cancel-appointment-button">
+                  Cancel Appointment
+                </button>
+              </div>
+            ))}      
           </div>
-        </>
+        </div>
+      )}
+      {/* Render appointment details only if moved to bottom */}
+      {isLoggedIn && 
+      appointmentData && appointmentData.length > 0 &&
+      isAtBottom && (
+        <div className="appointment-card" style={{ position: 'fixed', bottom: '0', width: '100%', background: '#fff' }}>
+          <div className="appointment-card__content">
+            <h3 className="appointment-card__title">Appointment Details</h3>
+            <p className="appointment-card__message"> 
+              <strong>Doctor: </strong>{doctorData?.name} 
+            </p>
+            <p className="appointment-card__message"> 
+              <strong>Speciality:</strong> {doctorData?.speciality} 
+            </p>
+            {appointmentData.map(appointment => (
+              <div key={appointment.id}>
+                <p className="appointment-card__message">
+                  <strong>Name:</strong> {appointment.name}
+                </p>
+                <p className="appointment-card__message">
+                  <strong>Phone:</strong> {appointment.phoneNumber}
+                </p>
+                <p className="appointment-card__message">
+                  <strong>Date:</strong> {appointment.selectedDate}
+                </p>
+                <p className="appointment-card__message">
+                  <strong>Time:</strong> {appointment.selectedSlot}
+                </p>
+                <button onClick={() => handleCancelAppointment(appointment.id)} className="cancel-appointment-button">
+                  Cancel Appointment
+                </button>
+              </div>
+            ))}      
+          </div>
+        </div>
       )}
     </div>
   );
